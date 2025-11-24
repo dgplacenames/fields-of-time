@@ -107,6 +107,17 @@
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
         }
 
+        .photo-grid > img {
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .photo-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
         .site-credit {
             text-align: center;
             font-size: 0.8rem !important;
@@ -232,14 +243,11 @@
         #map {
             position: absolute;
             top: 64px;
-            /* height of your nav bar */
             left: 0;
             right: 0;
             bottom: 0;
-            /* guarantees no white bar */
         }
 
-        /* Remove focus outlines that cause black rectangles */
         #map:focus,
         #map *,
         .leaflet-interactive:focus,
@@ -423,7 +431,10 @@
         <p>If you would like to volunteer to help collect the remaining field-names or to help with stitching, please <a href="#" id="contact-link" style="cursor: pointer;">get in touch</a>.</p>
 
         <div class="photo-grid">
-            <img src="images/squaring-the-map.jpeg" alt="Community members working with a large map on the floor">
+            <div class="photo-stack">
+                <img src="images/squaring-the-map.jpeg" alt="Community members working with a large map on the floor">
+                <img src="images/field-boundaries.jpeg" alt="Close-up of tapestry showing field boundaries">
+            </div>
             <img src="images/tapestry.jpeg" alt="Colorful tapestry squares showing field areas">
         </div>
 

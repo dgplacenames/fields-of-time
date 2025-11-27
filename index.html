@@ -284,7 +284,6 @@
         #map-results {
             max-height: 200px;
             overflow-y: auto;
-            margin-top: 5px;
             background: white;
         }
 
@@ -705,6 +704,12 @@
                 const matches = fields.filter(f =>
                     f.name.toLowerCase().includes(q) || f.grid.toLowerCase().includes(q)
                 );
+
+                // Show count
+                const countDiv = document.createElement('div');
+                countDiv.style.cssText = 'font-size: 0.85rem; color: #666; padding: 4px 8px; margin-top: 5px;';
+                countDiv.textContent = `${matches.length} result${matches.length !== 1 ? 's' : ''}`;
+                results.appendChild(countDiv);
 
                 matches.forEach(field => {
                     const div = document.createElement('div');

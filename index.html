@@ -704,7 +704,7 @@
 
                 const matches = fields.filter(f =>
                     f.name.toLowerCase().includes(q) || f.grid.toLowerCase().includes(q)
-                ).slice(0, 10);
+                );
 
                 matches.forEach(field => {
                     const div = document.createElement('div');

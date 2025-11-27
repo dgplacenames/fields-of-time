@@ -268,11 +268,40 @@
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
         }
 
+        #map-search-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
         #map-search input {
-            padding: 8px;
+            padding: 8px 30px 8px 8px;
             width: 250px;
             border: 1px solid #ccc;
             border-radius: 3px;
+        }
+
+        #map-search-clear {
+            position: absolute;
+            right: 8px;
+            background: none;
+            border: none;
+            color: #999;
+            cursor: pointer;
+            font-size: 18px;
+            padding: 0;
+            width: 20px;
+            height: 20px;
+            display: none;
+            line-height: 1;
+        }
+
+        #map-search-clear:hover {
+            color: #333;
+        }
+
+        #map-search-clear.visible {
+            display: block;
         }
 
         #map-search input:focus {
@@ -449,7 +478,10 @@
 
     <div id="map" class="view">
         <div id="map-search">
-            <input type="text" id="map-search-input" placeholder="Search fields...">
+            <div id="map-search-container">
+                <input type="text" id="map-search-input" placeholder="Search fields...">
+                <button id="map-search-clear">&times;</button>
+            </div>
             <div id="map-results"></div>
         </div>
     </div>
@@ -694,10 +726,20 @@
             map.fitBounds(layer.getBounds());
 
             // Map search
-            document.getElementById('map-search-input').addEventListener('input', e => {
+            const mapSearchInput = document.getElementById('map-search-input');
+            const mapSearchClear = document.getElementById('map-search-clear');
+            const mapResults = document.getElementById('map-results');
+
+            mapSearchInput.addEventListener('input', e => {
                 const q = e.target.value.toLowerCase();
-                const results = document.getElementById('map-results');
-                results.innerHTML = '';
+                mapResults.innerHTML = '';
+
+                // Show/hide clear button
+                if (q.length > 0) {
+                    mapSearchClear.classList.add('visible');
+                } else {
+                    mapSearchClear.classList.remove('visible');
+                }
 
                 if (q.length < 2) return;
 
@@ -709,7 +751,7 @@
                 const countDiv = document.createElement('div');
                 countDiv.style.cssText = 'font-size: 0.85rem; color: #666; padding: 4px 8px; margin-top: 5px;';
                 countDiv.textContent = `${matches.length} result${matches.length !== 1 ? 's' : ''}`;
-                results.appendChild(countDiv);
+                mapResults.appendChild(countDiv);
 
                 matches.forEach(field => {
                     const div = document.createElement('div');
@@ -717,11 +759,20 @@
                     div.innerHTML = `<b>${field.name}</b><br><small>${field.grid}</small>`;
                     div.onclick = () => {
                         highlightField(field.id);
-                        results.innerHTML = '';
-                        document.getElementById('map-search-input').value = '';
+                        mapResults.innerHTML = '';
+                        mapSearchInput.value = '';
+                        mapSearchClear.classList.remove('visible');
                     };
-                    results.appendChild(div);
+                    mapResults.appendChild(div);
                 });
+            });
+
+            // Clear button functionality
+            mapSearchClear.addEventListener('click', () => {
+                mapSearchInput.value = '';
+                mapResults.innerHTML = '';
+                mapSearchClear.classList.remove('visible');
+                mapSearchInput.focus();
             });
         }
 

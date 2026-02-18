@@ -1,0 +1,8 @@
+title: Fields of Time
+baseurl: "/fields-of-time"
+url: "https://dgplacenames.github.io"
+
+permalink: /news/:year/:month/:day/:title/
+
+exclude:
+  - README.md

@@ -1,0 +1,78 @@
+---
+layout: default
+title: News
+is_news: true
+---
+<style>
+    .news-header { margin-bottom: 2.5rem; }
+    .news-header h1 { font-size: 2rem; color: #2c5f7f; margin-bottom: 0.5rem; }
+    .news-header p { color: #555; font-size: 1.05rem; line-height: 1.6; }
+
+    .post-list { list-style: none; }
+
+    .post-item {
+        padding: 1.5rem 0;
+        border-bottom: 1px solid #eee;
+    }
+
+    .post-item:last-child { border-bottom: none; }
+
+    .post-item-date {
+        font-size: 0.85rem;
+        color: #888;
+        margin-bottom: 0.35rem;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+    }
+
+    .post-item h2 {
+        font-size: 1.3rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .post-item h2 a {
+        color: #2c5f7f;
+        text-decoration: none;
+    }
+
+    .post-item h2 a:hover { text-decoration: underline; }
+
+    .post-item .excerpt {
+        color: #444;
+        line-height: 1.6;
+        font-size: 1rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .read-more {
+        font-size: 0.9rem;
+        color: #2c5f7f;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .read-more:hover { text-decoration: underline; }
+    .read-more::after { content: " →"; }
+
+    .no-posts { color: #666; font-style: italic; }
+</style>
+
+<div class="news-header">
+    <h1>News</h1>
+    <p>Updates from the Fields of Time project.</p>
+</div>
+
+{% if site.posts.size == 0 %}
+    <p class="no-posts">No news posts yet — check back soon.</p>
+{% else %}
+    <ul class="post-list">
+    {% for post in site.posts %}
+        <li class="post-item">
+            <p class="post-item-date">{{ post.date | date: "%-d %B %Y" }}</p>
+            <h2><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h2>
+            <p class="excerpt">{{ post.excerpt | strip_html | truncatewords: 50 }}</p>
+            <a href="{{ site.baseurl }}{{ post.url }}" class="read-more">Read more</a>
+        </li>
+    {% endfor %}
+    </ul>
+{% endif %}

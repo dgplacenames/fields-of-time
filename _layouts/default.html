@@ -57,6 +57,58 @@
 
         .site-credit a { color: #666; }
 
+        #contact-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 10001;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #contact-modal.active { display: flex; }
+
+        #contact-modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            position: relative;
+            max-width: 500px;
+            width: 90%;
+        }
+
+        #contact-modal-close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #999;
+            border: none;
+            background: none;
+        }
+
+        #contact-modal-close:hover { color: #333; }
+
+        #contact-modal h2 {
+            color: #2c5f7f;
+            margin-bottom: 1rem;
+            padding-right: 30px;
+        }
+
+        #contact-modal p { line-height: 1.6; }
+
+        #contact-modal ul {
+            line-height: 1.8;
+            list-style-position: outside;
+            padding-left: 1.5rem;
+        }
+
         {{ content_css }}
     </style>
 </head>
@@ -65,7 +117,7 @@
         <h1><a href="{{ site.baseurl }}/">Fields of Time</a></h1>
         <div>
             <button onclick="window.location.href='{{ site.baseurl }}/'">Home</button>
-            <button onclick="window.location.href='{{ site.baseurl }}/#contact'">Contact</button>
+            <button onclick="showContactModal()">Contact</button>
             <button onclick="window.location.href='{{ site.baseurl }}/#list'">List</button>
             <button onclick="window.location.href='{{ site.baseurl }}/#map'">Map</button>
             <button onclick="window.location.href='{{ site.baseurl }}/news/'"{% if page.is_news %} class="active"{% endif %}>News</button>
@@ -76,5 +128,33 @@
         {{ content }}
         <p class="site-credit">Site by <a href="https://github.com/dgplacenames/fields-of-time" target="_blank">Colin Mackenzie</a></p>
     </main>
+    <div id="contact-modal">
+        <div id="contact-modal-content">
+            <button id="contact-modal-close">&times;</button>
+            <h2>Get in Touch</h2>
+            <ul>
+                <li>For names in South Ronaldsay and stitching: Sheena Graham-George <a href="mailto:lottyotter@outlook.com">lottyotter@outlook.com</a></li>
+                <li>For names outwith South Ronaldsay: Colin Mackenzie <a href="mailto:colinpmac@hotmail.com">colinpmac@hotmail.com</a></li>
+                <li>For names in Eday, Stronsay, Rousay, Egilsay, Wyre, Faray, Eynhallow: Corrina Rayner <a href="mailto:corinna.rayner@gmail.com">corinna.rayner@gmail.com</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        function showContactModal() {
+            document.getElementById('contact-modal').classList.add('active');
+        }
+
+        document.getElementById('contact-modal-close').onclick = (e) => {
+            e.stopPropagation();
+            document.getElementById('contact-modal').classList.remove('active');
+        };
+
+        document.getElementById('contact-modal').addEventListener('click', (e) => {
+            if (e.target.id === 'contact-modal') {
+                document.getElementById('contact-modal').classList.remove('active');
+            }
+        });
+    </script>
 </body>
 </html>

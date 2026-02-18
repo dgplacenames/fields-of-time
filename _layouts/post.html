@@ -8,7 +8,7 @@ layout: default
     .post-body { line-height: 1.7; font-size: 1.1rem; }
     .post-body p { margin-bottom: 1.2rem; }
     .post-body h2 { color: #2c5f7f; margin: 2rem 0 0.75rem; }
-    .post-body img { max-width: 100%; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); margin: 1rem 0; }
+    .post-body img { max-width: 60%; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); margin: 1rem 0; }
     .post-nav { display: flex; justify-content: space-between; margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid #eee; font-size: 0.95rem; }
     .post-nav a { color: #2c5f7f; text-decoration: none; max-width: 45%; }
     .post-nav a:hover { text-decoration: underline; }
@@ -30,7 +30,7 @@ layout: default
     {{ content }}
 </div>
 
-<nav class="post-nav">
+<div class="post-nav">
     {% if page.previous.url %}
         <a href="{{ site.baseurl }}{{ page.previous.url }}" class="prev">{{ page.previous.title }}</a>
     {% else %}
@@ -39,4 +39,4 @@ layout: default
     {% if page.next.url %}
         <a href="{{ site.baseurl }}{{ page.next.url }}" class="next">{{ page.next.title }}</a>
     {% endif %}
-</nav>
+</div>

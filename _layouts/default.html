@@ -1,13 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ page.title }} — Fields of Time</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-        body { font-family: system-ui, sans-serif; }
+        body {
+            font-family: system-ui, sans-serif;
+        }
 
         nav {
             background: #2c5f7f;
@@ -18,7 +25,9 @@
             align-items: center;
         }
 
-        nav h1 { font-size: 1.5rem; }
+        nav h1 {
+            font-size: 1.5rem;
+        }
 
         nav h1 a {
             color: white;
@@ -38,8 +47,18 @@
             font-size: 1rem;
         }
 
-        nav a.nav-link:hover { background: rgba(255,255,255,0.1); }
-        nav a.nav-link.active { background: rgba(255,255,255,0.2); }
+        nav button,
+        nav a.nav-link {
+            font-size: 0.875rem;
+        }
+
+        nav a.nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        nav a.nav-link.active {
+            background: rgba(255, 255, 255, 0.2);
+        }
 
         main {
             padding: 3rem 2rem;
@@ -47,7 +66,9 @@
             margin: 0 auto;
         }
 
-        a { color: #2c5f7f; }
+        a {
+            color: #2c5f7f;
+        }
 
         .site-credit {
             text-align: center;
@@ -58,11 +79,18 @@
             border-top: 1px solid #eee;
         }
 
-        .site-credit a { color: #666; }
+        .site-credit a {
+            color: #666;
+        }
 
-        {{ content_css }}
+            {
+                {
+                content_css
+            }
+        }
     </style>
 </head>
+
 <body>
     <nav>
         <h1><a href="{{ site.baseurl }}/">Fields of Time</a></h1>
@@ -80,4 +108,5 @@
         <p class="site-credit">Site by <a href="https://github.com/dgplacenames/fields-of-time" target="_blank">Colin Mackenzie</a></p>
     </main>
 </body>
+
 </html>

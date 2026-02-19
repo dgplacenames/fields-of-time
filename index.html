@@ -48,6 +48,85 @@
             background: rgba(255, 255, 255, 0.2);
         }
 
+        /* Hamburger - hidden on desktop */
+        #hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            width: 38px;
+            height: 38px;
+            padding: 0;
+            margin-left: 0;
+        }
+
+        #hamburger span {
+            display: block;
+            width: 18px;
+            height: 2px;
+            background: white;
+            transition: all 0.2s;
+        }
+
+        #hamburger.open span:nth-child(1) {
+            transform: translateY(7px) rotate(45deg);
+        }
+
+        #hamburger.open span:nth-child(2) {
+            opacity: 0;
+        }
+
+        #hamburger.open span:nth-child(3) {
+            transform: translateY(-7px) rotate(-45deg);
+        }
+
+        #mobile-menu {
+            display: none;
+            background: #1e4a5f;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.25s ease;
+            position: relative;
+            z-index: 2000;
+        }
+
+        #mobile-menu.open {
+            max-height: 300px;
+        }
+
+        #mobile-menu button {
+            display: block;
+            width: 100%;
+            border: none;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 0;
+            margin-left: 0;
+            padding: 0.85rem 1.5rem;
+            text-align: left;
+            font-size: 0.95rem;
+            color: #2c5f7f;
+        }
+
+        #mobile-menu button:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            #nav-buttons {
+                display: none;
+            }
+
+            #hamburger {
+                display: flex;
+            }
+
+            #mobile-menu {
+                display: block;
+            }
+        }
+
         .view {
             display: none;
         }
@@ -438,18 +517,29 @@
 <body>
     <nav>
         <h1>Fields of Time</h1>
-        <div>
+        <div id="nav-buttons">
             <button id="btn-home" class="active">Home</button>
             <button id="btn-contact">Contact</button>
             <button id="btn-list">List</button>
             <button id="btn-map">Map</button>
             <button onclick="window.location.href='/news/'">News</button>
         </div>
+        <button id="hamburger" aria-label="Menu">
+            <span></span><span></span><span></span>
+        </button>
     </nav>
+
+    <div id="mobile-menu">
+        <button id="mob-btn-home" class="active">Home</button>
+        <button id="mob-btn-contact">Contact</button>
+        <button id="mob-btn-list">List</button>
+        <button id="mob-btn-map">Map</button>
+        <button onclick="closeMobileMenu(); window.location.href='/news/'">News</button>
+    </div>
 
     <div id="home" class="view active">
         <p><em>The Fields of Time</em> is a community art project run by the <a href="https://www.facebook.com/saintmarystrust/" target="_blank">St Mary's Preservation Trust</a>.</p>
-        
+
         <p>We are recording the field-names from South Ronaldsay's south parish in a patchwork and in a digital map.</p>
 
         <p>While the patchwork will cover the south parish, the digital map will record field-names from across Orkney.</p>
@@ -541,23 +631,52 @@
                 handleRoute();
             });
 
-        // Navigation
+        // Desktop navigation
         ['home', 'list', 'map'].forEach(view => {
             document.getElementById(`btn-${view}`).onclick = () => {
                 window.location.hash = view;
             };
         });
 
-        // Contact button
         document.getElementById('btn-contact').onclick = () => {
             showContactModal();
         };
 
+        // Mobile navigation
+        function closeMobileMenu() {
+            document.getElementById('hamburger').classList.remove('open');
+            document.getElementById('mobile-menu').classList.remove('open');
+        }
+
+        document.getElementById('hamburger').addEventListener('click', () => {
+            document.getElementById('hamburger').classList.toggle('open');
+            document.getElementById('mobile-menu').classList.toggle('open');
+        });
+
+        ['home', 'list', 'map'].forEach(view => {
+            document.getElementById(`mob-btn-${view}`).onclick = () => {
+                closeMobileMenu();
+                window.location.hash = view;
+            };
+        });
+
+        document.getElementById('mob-btn-contact').onclick = () => {
+            closeMobileMenu();
+            showContactModal();
+        };
+
+        function syncMobileActive(view) {
+            document.querySelectorAll('#mobile-menu button').forEach(b => b.classList.remove('active'));
+            const mob = document.getElementById(`mob-btn-${view}`);
+            if (mob) mob.classList.add('active');
+        }
+
         function switchView(view) {
             document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-            document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('#nav-buttons button').forEach(b => b.classList.remove('active'));
             document.getElementById(view).classList.add('active');
             document.getElementById(`btn-${view}`).classList.add('active');
+            syncMobileActive(view);
 
             if (view !== 'map') closeModal();
 
@@ -573,12 +692,10 @@
 
             layer.eachLayer(l => {
                 if (l.feature.properties.fid === fieldId) {
-                    // Reset previous highlight
                     if (currentHighlighted && currentHighlighted !== l) {
                         resetFieldStyle(currentHighlighted);
                     }
 
-                    // Zoom and highlight
                     const center = l.getBounds().getCenter();
                     map.setView(center, 15, { animate: false });
 
@@ -608,7 +725,6 @@
         function initMap() {
             map = L.map('map', { boxZoom: false });
 
-            // Tile layers
             const sat = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
                 attribution: '<a href="https://www.esri.com/" target="_blank">© Esri</a>'
             });
@@ -624,7 +740,6 @@
 
             sat.addTo(map);
 
-            // Add field layer first (before layer control)
             layer = L.geoJSON(geojson, {
                 style: {
                     color: 'rgba(35,35,35,0.6)',
@@ -657,7 +772,6 @@
                 }
             }).addTo(map);
 
-            // Layer control with fields as an overlay
             const layerControl = L.control.layers({
                 "Satellite": sat,
                 "OS 1st Edition": os1,
@@ -667,7 +781,6 @@
                 "Fields": layer
             }, { collapsed: false }).addTo(map);
 
-            // Custom layer control behavior
             const controlContainer = layerControl.getContainer();
             const link = controlContainer.querySelector('.leaflet-control-layers-toggle');
             const newLink = link.cloneNode(true);
@@ -693,19 +806,16 @@
                 }
             });
 
-            // Close layer control when a layer is selected
             const form = controlContainer.querySelector('form');
             if (form) {
                 L.DomEvent.on(form, 'click', e => {
                     L.DomEvent.stopPropagation(e);
-                    // Close after a brief delay to allow the layer change to register
                     setTimeout(() => {
                         L.DomUtil.removeClass(controlContainer, 'leaflet-control-layers-expanded');
                     }, 100);
                 });
             }
 
-            // Close on map click
             let isDragging = false;
             map.on('mousedown', () => { isDragging = false; });
             map.on('mousemove', () => { isDragging = true; });
@@ -715,16 +825,8 @@
                 }
             });
 
-            // Handle overlay toggle events
-            map.on('overlayadd', (e) => {
-                if (e.name === 'Fields') {
-                    // Fields layer was added back
-                }
-            });
-
             map.on('overlayremove', (e) => {
                 if (e.name === 'Fields') {
-                    // Fields layer was removed
                     closeModal();
                     currentHighlighted = null;
                 }
@@ -738,7 +840,6 @@
 
             map.fitBounds(layer.getBounds());
 
-            // Map search
             const mapSearchInput = document.getElementById('map-search-input');
             const mapSearchClear = document.getElementById('map-search-clear');
             const mapResults = document.getElementById('map-results');
@@ -747,7 +848,6 @@
                 const q = e.target.value.toLowerCase();
                 mapResults.innerHTML = '';
 
-                // Show/hide clear button
                 if (q.length > 0) {
                     mapSearchClear.classList.add('visible');
                 } else {
@@ -760,7 +860,6 @@
                     f.name.toLowerCase().includes(q) || f.grid.toLowerCase().includes(q)
                 );
 
-                // Show count
                 const countDiv = document.createElement('div');
                 countDiv.style.cssText = 'font-size: 0.85rem; color: #666; padding: 4px 8px; margin-top: 5px;';
                 countDiv.textContent = `${matches.length} result${matches.length !== 1 ? 's' : ''}`;
@@ -780,7 +879,6 @@
                 });
             });
 
-            // Clear button functionality
             mapSearchClear.addEventListener('click', () => {
                 mapSearchInput.value = '';
                 mapResults.innerHTML = '';
@@ -821,7 +919,6 @@
 
         const backToTopBtn = document.getElementById('back-to-top');
 
-        // Only show back-to-top button in list view
         window.addEventListener('scroll', () => {
             const listView = document.getElementById('list');
             if (listView.classList.contains('active') && window.scrollY > 300) {
@@ -841,7 +938,6 @@
             document.getElementById('modal-grid').textContent = props.GridRef || 'N/A';
             document.getElementById('modal-id').textContent = props.fid || 'N/A';
 
-            // Show notes only if they exist
             const notesContainer = document.getElementById('modal-notes-container');
             const notesSpan = document.getElementById('modal-notes');
             if (props.Notes && props.Notes.trim()) {
@@ -863,7 +959,6 @@
             closeModal();
         };
 
-        // Only close modal when clicking the background, not the content
         document.getElementById('modal').addEventListener('click', (e) => {
             if (e.target.id === 'modal') {
                 closeModal();

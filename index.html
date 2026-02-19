@@ -772,6 +772,7 @@
                 }
             }).addTo(map);
 
+            const isMobile = window.innerWidth <= 768;
             const layerControl = L.control.layers({
                 "Satellite": sat,
                 "OS 1st Edition": os1,
@@ -779,7 +780,10 @@
                 "OpenStreetMap": osm
             }, {
                 "Fields": layer
-            }, { collapsed: false }).addTo(map);
+            }, {
+                collapsed: isMobile,
+                position: isMobile ? 'bottomleft' : 'topright'
+            }).addTo(map);
 
             const controlContainer = layerControl.getContainer();
             const link = controlContainer.querySelector('.leaflet-control-layers-toggle');

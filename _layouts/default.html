@@ -38,6 +38,66 @@
         nav button:hover { background: rgba(255,255,255,0.1); }
         nav button.active { background: rgba(255,255,255,0.2); }
 
+        #hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            width: 38px;
+            height: 38px;
+            padding: 0;
+            margin-left: 0;
+        }
+
+        #hamburger span {
+            display: block;
+            width: 18px;
+            height: 2px;
+            background: white;
+            transition: all 0.2s;
+        }
+
+        #hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        #hamburger.open span:nth-child(2) { opacity: 0; }
+        #hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+        #mobile-menu {
+            display: none;
+            background: #1e4a5f;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.25s ease;
+            position: relative;
+            z-index: 2000;
+        }
+
+        #mobile-menu.open { max-height: 300px; }
+
+        #mobile-menu button {
+            display: block;
+            width: 100%;
+            border: none;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            border-radius: 0;
+            margin-left: 0;
+            padding: 0.85rem 1.5rem;
+            text-align: left;
+            font-size: 0.95rem;
+            color: #2c5f7f;
+        }
+
+        #mobile-menu button:hover {
+            background: rgba(255,255,255,0.1);
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            #nav-buttons { display: none; }
+            #hamburger { display: flex; }
+            #mobile-menu { display: block; }
+        }
+
         main {
             padding: 3rem 2rem;
             max-width: 800px;
@@ -115,19 +175,31 @@
 <body>
     <nav>
         <h1><a href="{{ site.baseurl }}/">Fields of Time</a></h1>
-        <div>
+        <div id="nav-buttons">
             <button onclick="window.location.href='{{ site.baseurl }}/'">Home</button>
             <button onclick="showContactModal()">Contact</button>
             <button onclick="window.location.href='{{ site.baseurl }}/#list'">List</button>
             <button onclick="window.location.href='{{ site.baseurl }}/#map'">Map</button>
             <button onclick="window.location.href='{{ site.baseurl }}/news/'"{% if page.is_news %} class="active"{% endif %}>News</button>
         </div>
+        <button id="hamburger" aria-label="Menu">
+            <span></span><span></span><span></span>
+        </button>
     </nav>
+
+    <div id="mobile-menu">
+        <button onclick="closeMobileMenu(); window.location.href='{{ site.baseurl }}/'">Home</button>
+        <button onclick="closeMobileMenu(); showContactModal()">Contact</button>
+        <button onclick="closeMobileMenu(); window.location.href='{{ site.baseurl }}/#list'">List</button>
+        <button onclick="closeMobileMenu(); window.location.href='{{ site.baseurl }}/#map'">Map</button>
+        <button onclick="closeMobileMenu(); window.location.href='{{ site.baseurl }}/news/'"{% if page.is_news %} class="active"{% endif %}>News</button>
+    </div>
 
     <main>
         {{ content }}
         <p class="site-credit">Site by <a href="https://github.com/dgplacenames/fields-of-time" target="_blank">Colin Mackenzie</a></p>
     </main>
+
     <div id="contact-modal">
         <div id="contact-modal-content">
             <button id="contact-modal-close">&times;</button>
@@ -141,6 +213,16 @@
     </div>
 
     <script>
+        document.getElementById('hamburger').addEventListener('click', () => {
+            document.getElementById('hamburger').classList.toggle('open');
+            document.getElementById('mobile-menu').classList.toggle('open');
+        });
+
+        function closeMobileMenu() {
+            document.getElementById('hamburger').classList.remove('open');
+            document.getElementById('mobile-menu').classList.remove('open');
+        }
+
         function showContactModal() {
             document.getElementById('contact-modal').classList.add('active');
         }

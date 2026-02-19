@@ -2,7 +2,7 @@ title: Fields of Time
 baseurl: ""
 url: "https://fieldsoftime.cmackenzie.net"
 
-permalink: /news/:year/:month/:day/:title/
+permalink: /news/:year-:month-:day-:title/
 
 exclude:
   - README.md

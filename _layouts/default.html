@@ -1,24 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ page.title }} — Fields of Time</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-        body { font-family: system-ui, sans-serif; }
+        body {
+            font-family: system-ui, sans-serif;
+        }
 
         nav {
-            background: #2c5f7f;
+            background-color: #2c5f7f;
+            background-image: url('{{ site.baseurl }}/images/banner.jfif');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
             color: white;
             padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: relative;
         }
 
-        nav h1 { font-size: 1.5rem; }
+        nav::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.35);
+            z-index: 0;
+        }
+
+        nav h1,
+        nav #nav-buttons,
+        nav #hamburger {
+            position: relative;
+            z-index: 1;
+        }
+
+        nav h1 {
+            font-size: 1.5rem;
+        }
 
         nav h1 a {
             color: white;
@@ -35,8 +64,13 @@
             border-radius: 4px;
         }
 
-        nav button:hover { background: rgba(255,255,255,0.1); }
-        nav button.active { background: rgba(255,255,255,0.2); }
+        nav button:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        nav button.active {
+            background: rgba(255, 255, 255, 0.2);
+        }
 
         #hamburger {
             display: none;
@@ -58,9 +92,17 @@
             transition: all 0.2s;
         }
 
-        #hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-        #hamburger.open span:nth-child(2) { opacity: 0; }
-        #hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+        #hamburger.open span:nth-child(1) {
+            transform: translateY(7px) rotate(45deg);
+        }
+
+        #hamburger.open span:nth-child(2) {
+            opacity: 0;
+        }
+
+        #hamburger.open span:nth-child(3) {
+            transform: translateY(-7px) rotate(-45deg);
+        }
 
         #mobile-menu {
             display: none;
@@ -72,13 +114,15 @@
             z-index: 2000;
         }
 
-        #mobile-menu.open { max-height: 300px; }
+        #mobile-menu.open {
+            max-height: 300px;
+        }
 
         #mobile-menu button {
             display: block;
             width: 100%;
             border: none;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 0;
             margin-left: 0;
             padding: 0.85rem 1.5rem;
@@ -88,14 +132,22 @@
         }
 
         #mobile-menu button:hover {
-            background: rgba(255,255,255,0.1);
+            background: rgba(255, 255, 255, 0.1);
             color: white;
         }
 
         @media (max-width: 768px) {
-            #nav-buttons { display: none; }
-            #hamburger { display: flex; }
-            #mobile-menu { display: block; }
+            #nav-buttons {
+                display: none;
+            }
+
+            #hamburger {
+                display: flex;
+            }
+
+            #mobile-menu {
+                display: block;
+            }
         }
 
         main {
@@ -104,7 +156,9 @@
             margin: 0 auto;
         }
 
-        a { color: #2c5f7f; }
+        a {
+            color: #2c5f7f;
+        }
 
         .site-credit {
             text-align: center;
@@ -115,7 +169,9 @@
             border-top: 1px solid #eee;
         }
 
-        .site-credit a { color: #666; }
+        .site-credit a {
+            color: #666;
+        }
 
         #contact-modal {
             display: none;
@@ -130,7 +186,9 @@
             justify-content: center;
         }
 
-        #contact-modal.active { display: flex; }
+        #contact-modal.active {
+            display: flex;
+        }
 
         #contact-modal-content {
             background: white;
@@ -153,7 +211,9 @@
             background: none;
         }
 
-        #contact-modal-close:hover { color: #333; }
+        #contact-modal-close:hover {
+            color: #333;
+        }
 
         #contact-modal h2 {
             color: #2c5f7f;
@@ -161,7 +221,9 @@
             padding-right: 30px;
         }
 
-        #contact-modal p { line-height: 1.6; }
+        #contact-modal p {
+            line-height: 1.6;
+        }
 
         #contact-modal ul {
             line-height: 1.8;
@@ -169,9 +231,14 @@
             padding-left: 1.5rem;
         }
 
-        {{ content_css }}
+            {
+                {
+                content_css
+            }
+        }
     </style>
 </head>
+
 <body>
     <nav>
         <h1><a href="{{ site.baseurl }}/">Fields of Time</a></h1>
@@ -180,7 +247,7 @@
             <button onclick="showContactModal()">Contact</button>
             <button onclick="window.location.href='{{ site.baseurl }}/#list'">List</button>
             <button onclick="window.location.href='{{ site.baseurl }}/#map'">Map</button>
-            <button onclick="window.location.href='{{ site.baseurl }}/news/'"{% if page.is_news %} class="active"{% endif %}>News</button>
+            <button onclick="window.location.href='{{ site.baseurl }}/news/'" {% if page.is_news %} class="active" {% endif %}>News</button>
         </div>
         <button id="hamburger" aria-label="Menu">
             <span></span><span></span><span></span>
@@ -192,7 +259,7 @@
         <button onclick="closeMobileMenu(); showContactModal()">Contact</button>
         <button onclick="closeMobileMenu(); window.location.href='{{ site.baseurl }}/#list'">List</button>
         <button onclick="closeMobileMenu(); window.location.href='{{ site.baseurl }}/#map'">Map</button>
-        <button onclick="closeMobileMenu(); window.location.href='{{ site.baseurl }}/news/'"{% if page.is_news %} class="active"{% endif %}>News</button>
+        <button onclick="closeMobileMenu(); window.location.href='{{ site.baseurl }}/news/'" {% if page.is_news %} class="active" {% endif %}>News</button>
     </div>
 
     <main>
@@ -240,4 +307,5 @@
         });
     </script>
 </body>
+
 </html>

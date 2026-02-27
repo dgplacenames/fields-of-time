@@ -7,7 +7,7 @@ Included in the latest update to the digital map are field-names from Lower Cara
 
 Commemorative names like this are surprisingly common. There are twelve Balaclavas on the 2nd edition of the Ordnance Survey six-inch map of Scotland, including one each in Westray, Shapinsay and Flotta. And there are eight Scottish Inkermans, with one in Sanday and another in Shapinsay. Sebastopol and Cronstadt are much rarer: there are just two of the former on the 2nd ed OS and South Ronaldsay is home to Scotland's only Cronstadt.
 
-What's rarer still is to find these places as the names of fields. _A New Dictionary of English Field-Names_ includes entries for Inkerman, Sebastopol and [Alma](https://en.wikipedia.org/wiki/Battle_of_the_Alma) but not Balaclava or Cronstadt. It wouldn't be too surprising if a field called Balaclava turns up elsewhere but it's likely that Cronstadt is unique. And it's almost certain that there's nowhere else in the UK with four adjacent fields associated with the Crimean War.
+What's rarer still is to find these places as the names of fields. *A New Dictionary of English Field-Names* includes entries for Inkerman, Sebastopol and [Alma](https://en.wikipedia.org/wiki/Battle_of_the_Alma) but not Balaclava or Cronstadt. It wouldn't be too surprising if a field called Balaclava turns up elsewhere but it's likely that Cronstadt is unique. And it's almost certain that there's nowhere else in the UK with four adjacent fields associated with the Crimean War.
 
 You can use the layers menu on the [digital map](https://fieldsoftime.cmackenzie.net/#map) to view the 1st edition OS. Doing so shows that the order of Sevastopol, Cronstadt and Inkerman has been shuffled compared to the location of the houses.
 

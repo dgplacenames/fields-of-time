@@ -231,8 +231,37 @@
             padding-left: 1.5rem;
         }
 
-            {{content_css}}
+        .lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 20000;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
 
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox img {
+            max-width: 90vw;
+            max-height: 90vh;
+            border-radius: 4px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .post-body img {
+            cursor: zoom-in;
+        }
+
+            {
+                {
+                content_css
+            }
+        }
     </style>
 </head>
 
@@ -301,6 +330,31 @@
             if (e.target.id === 'contact-modal') {
                 document.getElementById('contact-modal').classList.remove('active');
             }
+        });
+    </script>
+
+    <div id="lightbox" class="lightbox">
+        <img id="lightbox-img" src="" alt="">
+    </div>
+
+    <script>
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+
+        document.querySelectorAll('.post-body img').forEach(img => {
+            img.addEventListener('click', () => {
+                lightboxImg.src = img.src;
+                lightboxImg.alt = img.alt;
+                lightbox.classList.add('active');
+            });
+        });
+
+        lightbox.addEventListener('click', () => {
+            lightbox.classList.remove('active');
+        });
+
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') lightbox.classList.remove('active');
         });
     </script>
 </body>
